@@ -1,0 +1,9 @@
+TO HAIM:
+    GET /recipes/recipe/{id} - get recipe info
+    POST /users/register - registartion
+TO SAPIR:
+    GET /recipes - random recipes
+    POST /recipes/search - search racipes
+TO BOTH HAIM AND SAPIR:
+    POST /users/login - login
+    GET /recipes/users/{username} - get recipes relevant to a user

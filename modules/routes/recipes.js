@@ -4,6 +4,21 @@ const axios = require("axios");
 
 const api_domain = "https://api.spoonacular.com/recipes";
 
+//HAIM
+router.get("/recipes/recipe/{id}",async (req, res, next) => {})
+//SAPIR
+router.get("/recipes",async (req, res, next) => {})
+router.post("/recipes/search",async (req, res, next) => {})
+//HAIM AND SAPIR
+router.get("/recipes/users/{username}",async (req, res, next) => {})
+//and finally
+module.exports = router;
+
+
+
+//-----------------------REFERENCES FROM LAB 9------------------------------------------//
+
+
 router.get("/", (req, res) => res.send("im here"));
 
 router.get("/Information", async (req, res, next) => {
@@ -51,5 +66,6 @@ function getRecipeInfo(id) {
     }
   });
 }
-
+//and finally
 module.exports = router;
+

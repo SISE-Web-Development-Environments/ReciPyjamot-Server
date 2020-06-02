@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 
 var port = process.env.PORT || "3000";
 //#endregion
-const user = require("./modules/routes/users");
+const users = require("./modules/routes/users");
 const recipes = require("./modules/routes/recipes");
 
 //#region cookie middleware
@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => res.send("welcome"));
 
-app.use("/user", user);
+app.use("/users", users);
 app.use("/recipes", recipes);
 
 app.use(function (err, req, res, next) {

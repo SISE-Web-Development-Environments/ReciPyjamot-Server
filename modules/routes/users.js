@@ -3,6 +3,16 @@ var router = express.Router();
 const DButils = require("../../db/DButils");
 const bcrypt = require("bcrypt");
 
+//HAIM
+router.post("/register",async (req, res, next) => {})
+//HAIM AND SAPIR
+router.post("/login",async (req, res, next) => {})
+//and finally
+module.exports = router;
+
+
+//-----------------------REFERENCES FROM LAB 9------------------------------------------//
+
 router.post("/Register", async (req, res, next) => {
   try {
     // parameters exists

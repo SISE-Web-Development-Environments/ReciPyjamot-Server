@@ -1,11 +1,12 @@
-var express = require("express");
-var router = express.Router();
-const DButils = require("../../db/DButils");
+const express = require('express');
 
-//#region cookie middleware
-router.use(function (req, res, next) {
+const router = express.Router();
+const DButils = require('../../db/DButils');
+
+// #region cookie middleware
+router.use((req, res, next) => {
   if (req.session && req.session.user_id) {
-    DButils.execQuery("SELECT user_id FROM users")
+    DButils.execQuery('SELECT user_id FROM users')
       .then((users) => {
         if (users.find((x) => x.user_id === req.session.user_id)) {
           req.user_id = req.session.user_id;
@@ -17,17 +18,17 @@ router.use(function (req, res, next) {
     next();
   }
 });
-//#endregion
+// #endregion
 
-router.get("/search", async (req, res, next) => {});
+router.get('/search', async (req, res, next) => {});
 
-router.get("/family", async (req, res, next) => {});
+router.get('/family', async (req, res, next) => {});
 
-router.get("/favorites", async (req, res, next) => {});
+router.get('/favorites', async (req, res, next) => {});
 
-router.get("/latest", async (req, res, next) => {});
+router.get('/latest', async (req, res, next) => {});
 
-router.use(function (err, req, res, next) {
+router.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).send({ message: err.message, success: false });
 });

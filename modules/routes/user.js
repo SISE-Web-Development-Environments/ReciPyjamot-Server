@@ -19,6 +19,14 @@ router.use(function (req, res, next) {
 });
 //#endregion
 
+router.get("/search", async (req, res, next) => {});
+
+router.get("/family", async (req, res, next) => {});
+
+router.get("/favorites", async (req, res, next) => {});
+
+router.get("/latest", async (req, res, next) => {});
+
 router.use(function (err, req, res, next) {
   console.error(err);
   res.status(err.status || 500).send({ message: err.message, success: false });

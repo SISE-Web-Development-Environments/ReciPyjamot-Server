@@ -1,17 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const DButils = require("../../db/DButils");
 const bcrypt = require("bcrypt");
-
-//HAIM
-router.post("/register",async (req, res, next) => {})
-//HAIM AND SAPIR
-router.post("/login",async (req, res, next) => {})
-//and finally
-module.exports = router;
-
-
-//-----------------------REFERENCES FROM LAB 9------------------------------------------//
 
 router.post("/Register", async (req, res, next) => {
   try {
@@ -72,4 +61,5 @@ router.post("/Logout", function (req, res) {
   res.send({ success: true, message: "logout succeeded" });
 });
 
+//and finally
 module.exports = router;

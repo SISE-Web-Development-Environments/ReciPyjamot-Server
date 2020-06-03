@@ -24,7 +24,7 @@ router.get('/', (req, res) => res.send('im here'));
 router.get('/Information', async (req, res, next) => {
   try {
     const recipe = await getRecipeInfo(req.query.recipe_id);
-    res.send({ data: recipe.data });
+    res.send({data: recipe.data});
   } catch (error) {
     next(error);
   }
@@ -48,10 +48,10 @@ router.get('/search', async (req, res, next) => {
       },
     });
     let recipes = await Promise.all(
-      search_response.data.results.map((recipe_raw) => getRecipeInfo(recipe_raw.id)),
+        search_response.data.results.map((recipe_raw) => getRecipeInfo(recipe_raw.id)),
     );
     recipes = recipes.map((recipe) => recipe.data);
-    res.send({ data: recipes });
+    res.send({data: recipes});
   } catch (error) {
     next(error);
   }

@@ -9,15 +9,15 @@ const app = express();
 app.use(logger('dev')); // logger
 app.use(express.json()); // parse application/json
 app.use(
-  session({
-    cookieName: 'session', // the cookie key name
-    secret: process.env.COOKIE_SECRET, // the encryption key
-    duration: 20 * 60 * 1000, // expired after 20 sec
-    activeDuration: 0, // if expiresIn < activeDuration,
+    session({
+      cookieName: 'session', // the cookie key name
+      secret: process.env.COOKIE_SECRET, // the encryption key
+      duration: 20 * 60 * 1000, // expired after 20 sec
+      activeDuration: 0, // if expiresIn < activeDuration,
     // the session will be extended by activeDuration milliseconds
-  }),
+    }),
 );
-app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
+app.use(express.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, 'public'))); // To serve static files such as images, CSS files, and JavaScript files
 
 const port = process.env.PORT || '3000';

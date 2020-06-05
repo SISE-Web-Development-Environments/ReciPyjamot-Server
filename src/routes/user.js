@@ -15,7 +15,7 @@ router.get("/favorite", userHandlers.favorite);
 router.get("/lastWatched", userHandlers.lastWatched);
 
 // The user personal recipes page
-router.get("/", userHandlers.recipes);
+router.get("/", userHandlers.personal);
 
 router.use((err, req, res, next) => {
   console.error(err);

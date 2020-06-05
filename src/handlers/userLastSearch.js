@@ -1,5 +1,5 @@
-const userLastSearch = (req, res, next) => {
+const userLastSearchHandler = (req, res, next) => {
   res.json({ hello: 1 });
 };
 
-module.exports = userLastSearch;
+module.exports = userLastSearchHandler;

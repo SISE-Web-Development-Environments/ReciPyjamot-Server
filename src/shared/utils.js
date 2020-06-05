@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const db = require("./db/DButils")
 const apiDomain='https://api.spoonacular.com';
 
 const getRecipeInfoByID = (id) => {
@@ -57,23 +57,37 @@ console.log(`requesting: ${apiDomain}/recipes/random?number=${count}`);
   });
 }
 // -----------------------------------------------------------------
-const registerInDB = (registerRequest) => {
+const login = async (username,password) => {
+  return (isUsernameTaken(username)&&authenticate(username,password))
+}
+const registerInDB = async (registerRequest) => {
   console.log(`extracting registration info from request`);
   const {username,fisrt_name,last_name,country,password,confirmation_password,email,image} = registerRequest;
   if(isUsernameTaken(username)){
     console.log(`username ${username} is taken`);
     return false;
   }
+  if(password!=confirmation_password){
+    console.log(`confirmation password does not match password`);
+    return false;
+  }
+  await db.execQuery(`
+  INSERT INTO [dbo].[users]
+    ([USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE])
+    VALUES
+    ('${username}', '${fisrt_name}', '${last_name}', '${country}', HASHBYTES('SHA2_256', '${password}'), '${email}', '${image}')
+    GO `
+);
   return true;
 }
 // private functions
-const authenticate = (username,password) => {
-  console.log(`authenticating ${username},${password} is in DB`);
-  return true;
+const authenticate = async (username,password) => {
+  const passwordDB = await db.execQuery(`select password from users where username = '${username}'`);
+  return password==passwordDB;
 }
-const isUsernameTaken = (username) => {
-  console.log(`checking if ${username} is in DB`);
-  return false;
+const isUsernameTaken = async (username) => {
+  const users = await db.execQuery(`select username from users where username = '${username}'`);
+  return users.length!=0;
 }
 
 
@@ -83,7 +97,8 @@ module.exports={
     getRecipeIngredientsByID: getRecipeIngredientsByID,
     getRecipePreviewByData: getRecipePreviewByData,
     getRandomRecipeData: getRandomRecipeData,
-    authenticate: authenticate,
+    register: registerInDB,
+    login: login,
 }
 // module.exports = {
 //     getRecipeInfoByID: getRecipeInfoByID,

@@ -16,7 +16,7 @@ app.use(routes);
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "public"))); // To serve static files such as images, CSS files, and JavaScript files
 app.get("/testDB",async ()=>{
-  const users = await db.execQuery("select username from users")
+  const users = await db.execQuery("select username from users where username = '4'")
   console.log(users);
 })
 const port = process.env.PORT || "3000";

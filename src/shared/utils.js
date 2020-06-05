@@ -64,7 +64,7 @@ const registerInDB = async (registerRequest) => {
   console.log(`extracting registration info from request`);
   const {
     username,
-    fisrt_name,
+    first_name,
     last_name,
     country,
     password,
@@ -84,7 +84,7 @@ const registerInDB = async (registerRequest) => {
   INSERT INTO [dbo].[users]
     ([USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE])
     VALUES
-    ('${username}', '${fisrt_name}', '${last_name}', '${country}', HASHBYTES('SHA2_256', '${password}'), '${email}', '${image}')
+    ('${username}', '${first_name}', '${last_name}', '${country}', HASHBYTES('SHA2_256', '${password}'), '${email}', '${image}')
     GO `);
   return true;
 };

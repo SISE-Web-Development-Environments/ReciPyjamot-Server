@@ -2,69 +2,89 @@ const express = require("express");
 
 const router = express.Router();
 const axios = require("axios");
-
+const api_domain='https://api.spoonacular.com';
 // HAIM
-router.get("/recipes/recipe/{id}", async (req, res, next) => {
+router.get("/recipe/:id", async (req, res, next) => {
+  console.log('id='+req.params.id);
   try {
-    // for information https://api.spoonacular.com//${id}/information
-    const infoAPI = await getRecipeInfoByID(req.query.recipe_id); // get the recipe info by given id
-    // for instrunctions GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
-    const instructionsAPI = await getRecipeInstructionsByID(
-      req.query.recipe_id
-    ); // get the recipe intructions by given id
+    // for information https://api.spoonacular.com/recipes/${id}/information
+    const infoAPI = await getRecipeInfoByID(req.params.id); // get the recipe info by given id
     // for ingredients https://api.spoonacular.com/recipes/{id}/ingredientWidget.json
-    const ingredientsAPI = await getRecipeIngredientsByID(req.query.recipe_id); // get the recipe's ingredients by given id
+    const ingredientsAPI = await getRecipeIngredientsByID(req.params.id); // get the recipe's ingredients by given id
+    // for instrunctions GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
+    const instructionsAPI = await getRecipeInstructionsByID(req.params.id); // get the recipe intructions by given id
 
+    // set preview
     const preview = {
-      image_url: infoAPI.image,
-      title: infoAPI.title,
-      preperation_time: infoAPI.readyInMinutes,
-      likes: infoAPI.likes,
-      vegen: infoAPI.vegen,
-      gluten_free: infoAPI.gluten_freee,
-      viewed: infoAPI.viewed, // TODO get from user
-      favorite: infoAPI.favorite, // TODO get from user
+      image_url: infoAPI.data.image,
+      title: infoAPI.data.title,
+      preperation_time: infoAPI.data.readyInMinutes,
+      likes: infoAPI.data.likes,
+      vegen: infoAPI.data.vegan,
+      gluten_free: infoAPI.data.glutenFree,
+      viewed: infoAPI.data.viewed, // TODO get from user
+      favorite: infoAPI.data.favorite, // TODO get from user
     };
-    const ingrediants = ingredientsAPI.ingredients.forEach(ingredient);
+    const ingredients = [];
+    ingredientsAPI.data.ingredients.forEach((ingredient)=>{
+      ingredients.push({
+        name: ingredient.name,
+        amount: ingredient.amount.metric.value,
+        units: ingredient.amount.metric.unit,
+      })
+    });
+    const instructions = {instructions:[]};
+    if(instructionsAPI.data.length!=0){
+      for(let i=0;i<instructionsAPI.data.length;i++){
+        for(let j=0;j<instructionsAPI.data[i].steps.length;j++){
+          instructions.instructions.push(instructionsAPI.data[i].steps[j].step)
+        }
+      }
+    }
     res.send(
-      // { data: recipe.data }
       {
         preview: preview,
-        number_of_dishes: recipe.servings,
-        ingrediants: [
-          {
-            name: "pepper",
-            amount: 0,
-            units: "grams",
-          },
-        ],
-        instructions: {
-          intructions: ["mix the eggs with the milk"],
-        },
+        number_of_dishes: infoAPI.data.servings,
+        ingrediants: ingredients,// TODO change the name 'ingrediants' to 'ingredients'
+        instructions: instructions,
       }
     ); // sends the data we got
-  } catch {}
+  } catch(err) {console.log(err)}
 });
 // SAPIR
-router.get("/recipes", async (req, res, next) => {});
-router.post("/recipes/search", async (req, res, next) => {});
-// HAIM AND SAPIR
-router.get("/recipes/users/{username}", async (req, res, next) => {});
-// and finally
+router.get("/", async (req, res, next) => {});
+// router.post("/search", async (req, res, next) => {
+router.get("/search", async (req, res, next) => {
+    try {
+      const { query, cusine, diet, intolerance, count } = req.body;
+      const search_response = await axios.get(`${api_domain}/recipes/search`, {
+        params: {
+          query,
+          cuisine: cusine,
+          diet,
+          intolerances: intolerance,
+          number: count,
+          instructionsRequired: true,
+          apiKey: process.env.spooncular_apiKey,
+        },
+      });
+      let recipes = await Promise.all(
+        search_response.data.results.map((recipe_raw) =>
+            getRecipeInfoByID(recipe_raw.id)
+        )
+      );
+      recipes = recipes.map((recipe) => getRecipePreviewByData(recipe.data));
+      res.send({ data: recipes });
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+// router.get("/users/${username}", async (req, res, next) => {});
+// // and finally
 module.exports = router;
-
-// HAIM
-router.get("/recipes/recipe/{id}", async (req, res, next) => {});
-// SAPIR
-router.get("/recipes", async (req, res, next) => {});
-router.post("/recipes/search", async (req, res, next) => {});
-// HAIM AND SAPIR
-router.get("/recipes/users/{username}", async (req, res, next) => {});
-// and finally
-module.exports = router;
-
 // -----------------------REFERENCES FROM LAB 9------------------------------------------//
-
+/*
 router.get("/", (req, res) => res.send("im here"));
 
 router.get("/Information", async (req, res, next) => {
@@ -103,19 +123,22 @@ router.get("/search", async (req, res, next) => {
   }
 });
 // #endregion
-
+*/
 function getRecipeInfoByID(id) {
   // for information https://api.spoonacular.com//${id}/information
-  return axios.get(`${api_domain}/${id}/information`, {
+  console.log(`requesting: ${api_domain}/recipes/${id}/information`);
+  return axios.get(`${api_domain}/recipes/${id}/information`, {
     params: {
-      includeNutrition: false,
+      includeNutrition: true,
       apiKey: process.env.spooncular_apiKey,
     },
   });
 }
+// gets the instructions
 function getRecipeInstructionsByID(id) {
   // for instrunctions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
-  return axios.get(`${api_domain}/${id}/analyzedInstructions`, {
+  console.log(`requesting: ${api_domain}/recipes/${id}/analyzedInstructions`);
+  return axios.get(`${api_domain}/recipes/${id}/analyzedInstructions`, {
     params: {
       includeNutrition: false,
       apiKey: process.env.spooncular_apiKey,
@@ -124,12 +147,29 @@ function getRecipeInstructionsByID(id) {
 }
 function getRecipeIngredientsByID(id) {
   // for ingredients https://api.spoonacular.com/recipes/{id}/ingredientWidget.json
-  return axios.get(`${api_domain}/${id}/ingredientWidget.json`, {
+  console.log(`requesting: ${api_domain}/recipes/${id}/ingredientWidget.json`);
+  return axios.get(`${api_domain}/recipes/${id}/ingredientWidget.json`, {
     params: {
       includeNutrition: false,
       apiKey: process.env.spooncular_apiKey,
     },
   });
+}
+// get the preview information of a recipe by given id  
+function getRecipePreviewByData(infoAPI) {
+  // for information https://api.spoonacular.com//${id}/information
+  const preview = {
+    image_url: infoAPI.image,
+    title: infoAPI.title,
+    preperation_time: infoAPI.readyInMinutes,
+    likes: infoAPI.likes,
+    vegen: infoAPI.vegan,
+    gluten_free: infoAPI.glutenFree,
+    viewed: infoAPI.viewed, // TODO get from user
+    favorite: infoAPI.favorite, // TODO get from user
+  };
+
+  return preview;
 }
 // and finally
 module.exports = router;

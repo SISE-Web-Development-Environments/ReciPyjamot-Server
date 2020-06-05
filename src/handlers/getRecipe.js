@@ -11,11 +11,11 @@ const getRecipe = async (req, res, next) => {
   
       // set preview
       const preview = {
-        image_url: infoAPI.data.image,
+        image: infoAPI.data.image,
         title: infoAPI.data.title,
-        preperation_time: infoAPI.data.readyInMinutes,
+        readyInMinutes: infoAPI.data.readyInMinutes,
         likes: infoAPI.data.likes,
-        vegen: infoAPI.data.vegan,// TODO change the word 'vegen' to 'vegan' in the API
+        vegan: infoAPI.data.vegan,// TODO change the word 'vegen' to 'vegan' in the API
         gluten_free: infoAPI.data.glutenFree,
         viewed: infoAPI.data.viewed, // TODO get from user
         favorite: infoAPI.data.favorite, // TODO get from user
@@ -24,22 +24,22 @@ const getRecipe = async (req, res, next) => {
       ingredientsAPI.data.ingredients.forEach((ingredient)=>{
         ingredients.push({
           name: ingredient.name,
-          amount: ingredient.amount.metric.value,
+          value: ingredient.amount.metric.value,
           units: ingredient.amount.metric.unit,
         })
       });
-      const instructions = {instructions:[]};
+      const instructions = [];
       if(instructionsAPI.data.length!=0){
         for(let i=0;i<instructionsAPI.data.length;i++){
           for(let j=0;j<instructionsAPI.data[i].steps.length;j++){
-            instructions.instructions.push(instructionsAPI.data[i].steps[j].step)
+            instructions.push(instructionsAPI.data[i].steps[j].step)
           }
         }
       }
       res.send(
         {
           preview: preview,
-          number_of_dishes: infoAPI.data.servings,
+          servings: infoAPI.data.servings,
           ingrediants: ingredients,// TODO change the name 'ingrediants' to 'ingredients'
           instructions: instructions,
         }

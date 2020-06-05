@@ -33,14 +33,14 @@ const getRecipeIngredientsByID = (id) => {
   });
 }
 const getRecipePreviewByData = (infoAPI) => {
-// for information https://api.spoonacular.com//${id}/information
+// extracts relevant data from information in request https://api.spoonacular.com//${id}/information
   const preview = {
-    image_url: infoAPI.image,
+    image: infoAPI.image,
     title: infoAPI.title,
-    preperation_time: infoAPI.readyInMinutes,
+    readyInMinutes: infoAPI.readyInMinutes,
     likes: infoAPI.likes,
-    vegen: infoAPI.vegan,
-    gluten_free: infoAPI.glutenFree,
+    vegan: infoAPI.vegan,
+    glutenFree: infoAPI.glutenFree,
     viewed: infoAPI.viewed, // TODO get from user
     favorite: infoAPI.favorite, // TODO get from user
   };
@@ -56,12 +56,34 @@ console.log(`requesting: ${apiDomain}/recipes/random?number=${count}`);
     },
   });
 }
+// -----------------------------------------------------------------
+const registerInDB = (registerRequest) => {
+  console.log(`extracting registration info from request`);
+  const {username,fisrt_name,last_name,country,password,confirmation_password,email,image} = registerRequest;
+  if(isUsernameTaken(username)){
+    console.log(`username ${username} is taken`);
+    return false;
+  }
+  return true;
+}
+// private functions
+const authenticate = (username,password) => {
+  console.log(`authenticating ${username},${password} is in DB`);
+  return true;
+}
+const isUsernameTaken = (username) => {
+  console.log(`checking if ${username} is in DB`);
+  return false;
+}
+
+
 module.exports={
     getRecipeInfoByID: getRecipeInfoByID,
     getRecipeInstructionsByID: getRecipeInstructionsByID,
     getRecipeIngredientsByID: getRecipeIngredientsByID,
     getRecipePreviewByData: getRecipePreviewByData,
     getRandomRecipeData: getRandomRecipeData,
+    authenticate: authenticate,
 }
 // module.exports = {
 //     getRecipeInfoByID: getRecipeInfoByID,

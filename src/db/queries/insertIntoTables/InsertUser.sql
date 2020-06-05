@@ -9,7 +9,7 @@ VALUES
 
 GO
 
-INSERT INTO dbo.users
+INSERT INTO [dbo].[users]
     (
     [USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE]
     )

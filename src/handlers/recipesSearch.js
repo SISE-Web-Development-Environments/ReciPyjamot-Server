@@ -1,8 +1,7 @@
 
 const axios = require("axios");
 
-const getRecipeInfoByID = require("../shared/utils")
-const getRecipePreviewByData = require("../shared/utils")
+const {getRecipeInfoByID,getRecipePreviewByData} = require("../shared/utils")
 
 const apiDomain = 'https://api.spoonacular.com';
 

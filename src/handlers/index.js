@@ -1,5 +1,6 @@
 const recipesSearch = require("./recipesSearch");
 const getRecipe = require("./getRecipe");
+const getRandomRecipes = require("./getRandomRecipes")
 const userLastSearchHandler = require("./userLastSearch");
 const userFamilyRecipesHandler = require("./userFamilyRecipes");
 const userFavoriteRecipesHandler = require("./userFavoriteRecipes");
@@ -19,6 +20,7 @@ module.exports = {
     recipesHandlers: {
       recipesSearch: recipesSearch,
       getRecipe: getRecipe,
+      getRandomRecipes: getRandomRecipes,
     },
     authenticationHandlers: {
     register: authRegisterHandler,

@@ -1,6 +1,4 @@
-const getRecipeInfoByID = require("../shared/utils")
-const getRecipeIngredientsByID = require("../shared/utils")
-const getRecipeInstructionsByID = require("../shared/utils")
+const {getRecipeInfoByID,getRecipeIngredientsByID,getRecipeInstructionsByID} = require("../shared")
 
 const getRecipe = async (req, res, next) => {
     try {

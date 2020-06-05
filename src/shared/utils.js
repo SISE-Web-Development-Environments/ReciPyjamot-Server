@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 const apiDomain='https://api.spoonacular.com';
 
 const getRecipeInfoByID = (id) => {
@@ -54,11 +56,17 @@ console.log(`requesting: ${apiDomain}/recipes/random?number=${count}`);
     },
   });
 }
-
-module.exports = {
+module.exports={
     getRecipeInfoByID: getRecipeInfoByID,
     getRecipeInstructionsByID: getRecipeInstructionsByID,
     getRecipeIngredientsByID: getRecipeIngredientsByID,
     getRecipePreviewByData: getRecipePreviewByData,
     getRandomRecipeData: getRandomRecipeData,
 }
+// module.exports = {
+//     getRecipeInfoByID: getRecipeInfoByID,
+//     getRecipeInstructionsByID: getRecipeInstructionsByID,
+//     getRecipeIngredientsByID: getRecipeIngredientsByID,
+//     getRecipePreviewByData: getRecipePreviewByData,
+//     getRandomRecipeData: getRandomRecipeData,
+// }

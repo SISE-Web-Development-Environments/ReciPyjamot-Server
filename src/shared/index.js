@@ -1,13 +1,3 @@
-const getRecipeInfoByID = require('./utils');
-const getRecipeInstructionsByID = require('./utils');
-const getRecipeIngredientsByID = require('./utils');
-const getRecipePreviewByData = require('./utils');
-const getRandomRecipeData = require('./utils');
+const utils = require('./utils');
 
-module.exports = {
-    getRecipeInfoByID: getRecipeInfoByID,
-    getRecipeInstructionsByID: getRecipeInstructionsByID,
-    getRecipeIngredientsByID: getRecipeIngredientsByID,
-    getRecipePreviewByData: getRecipePreviewByData,
-    getRandomRecipeData: getRandomRecipeData,
-}
+module.exports = utils 

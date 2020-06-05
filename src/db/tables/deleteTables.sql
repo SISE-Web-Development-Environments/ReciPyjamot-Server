@@ -1,0 +1,4 @@
+-- DROP TABLE [dbo].[users];
+-- DROP TABLE dbo.recipes;
+-- DROP TABLE userRecipes;
+-- DROP TABLE favorites;

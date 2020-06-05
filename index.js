@@ -40,8 +40,13 @@ const newRecipe = {
 
 const recipeString = JSON.stringify(newRecipe);
 app.get("/testDB2", async () => {
-  const users = await db.execQuery(
+  await db.execQuery(
     `INSERT INTO [dbo].[recipes] ([INFO]) VALUES('${recipeString}')`
+  );
+});
+app.get("/testDB3", async () => {
+  const users = await db.execQuery(
+    "select username from users where username = '4'"
   );
   console.log(users);
 });

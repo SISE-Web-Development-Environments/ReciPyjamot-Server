@@ -1,5 +1,5 @@
 const axios = require("axios");
-const db = require("./db/DButils");
+const db = require("../db/DButils");
 const apiDomain = "https://api.spoonacular.com";
 
 const getRecipeInfoByID = (id) => {
@@ -32,17 +32,18 @@ const getRecipeIngredientsByID = (id) => {
     },
   });
 };
-const getRecipePreviewByData = (infoAPI) => {
+const getRecipePreviewByData = (infoAPIData) => {
   // extracts relevant data from information in request https://api.spoonacular.com//${id}/information
   const preview = {
-    image: infoAPI.image,
-    title: infoAPI.title,
-    readyInMinutes: infoAPI.readyInMinutes,
-    likes: infoAPI.likes,
-    vegan: infoAPI.vegan,
-    glutenFree: infoAPI.glutenFree,
-    viewed: infoAPI.viewed, // TODO get from user
-    favorite: infoAPI.favorite, // TODO get from user
+    id: infoAPIData.id,
+    image: infoAPIData.image,
+    title: infoAPIData.title,
+    readyInMinutes: infoAPIData.readyInMinutes,
+    likes: infoAPIData.likes,
+    vegan: infoAPIData.vegan,
+    glutenFree: infoAPIData.glutenFree,
+    viewed: infoAPIData.viewed, // TODO get from user
+    favorite: infoAPIData.favorite, // TODO get from user
   };
   return preview;
 };

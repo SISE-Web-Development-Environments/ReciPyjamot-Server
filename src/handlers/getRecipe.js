@@ -15,6 +15,7 @@ const getRecipe = async (req, res, next) => {
 
     // set preview
     const preview = {
+      id: infoAPI.data.id,
       image: infoAPI.data.image,
       title: infoAPI.data.title,
       readyInMinutes: infoAPI.data.readyInMinutes,

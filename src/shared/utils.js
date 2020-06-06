@@ -15,7 +15,7 @@ const getRecipeInfoByID = (id) => {
   });
 };
 const getRecipeInstructionsByID = (id) => {
-  // for instrunctions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
+  // for instructions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
   console.log(`requesting: ${apiDomain}/recipes/${id}/analyzedInstructions`);
   return axios.get(`${apiDomain}/recipes/${id}/analyzedInstructions`, {
     params: {

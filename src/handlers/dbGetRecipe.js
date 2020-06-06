@@ -1,4 +1,4 @@
-const db = require("../db/DButils");
+const db = require("../db/dbUtils");
 
 const getRecipeFromDBHandler = async () => {
   const users = await db.execQuery("select INFO from recipes");

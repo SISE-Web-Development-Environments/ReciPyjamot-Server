@@ -1,15 +1,13 @@
 const newRecipe = {
-  preview: {
-    image:
-      "https://www.ambitiouskitchen.com/wp-content/uploads/2019/04/bananaoatmealpancakes-2.jpg",
-    title: "Healthy Banana Oatmeal Pancakes",
-    readyInMinutes: 20,
-    likes: 1,
-    vegan: false,
-    glutenFree: true,
-    viewed: true,
-    favorite: true,
-  },
+  image:
+    "https://www.ambitiouskitchen.com/wp-content/uploads/2019/04/bananaoatmealpancakes-2.jpg",
+  title: "Healthy Banana Oatmeal Pancakes",
+  readyInMinutes: 20,
+  likes: 1,
+  vegan: false,
+  glutenFree: true,
+  viewed: true,
+  favorite: true,
   ingredients: [
     {
       name: "medium ripe bananas (best when they have lots of brown spots)",

@@ -38,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     ingredients: {
-      type: DataTypes.STRING,
+      type: Sequelize.TEXT,
       allowNull: false,
       get: function () {
         return JSON.parse(this.getDataValue("ingredients"));
@@ -47,10 +47,7 @@ module.exports = (sequelize, Sequelize) => {
         return this.setDataValue("ingredients", JSON.stringify(val));
       },
     },
-    instructions: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
-      allowNull: false,
-    },
+    instructions: Sequelize.TEXT,
     servings: {
       type: Sequelize.INTEGER,
       allowNull: false,

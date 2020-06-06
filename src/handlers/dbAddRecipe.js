@@ -1,20 +1,20 @@
+const pancakeRecipe = require("../models/jsonRecipes/pancakeRecipe");
+
 const addRecipeHandler = async (req, res, next) => {
   await req.app.db.recipes.create({
-    image: "123",
-    title: "demo",
-    readyInMinutes: 3,
-    likes: 3,
-    vegan: true,
-    glutenFree: true,
+    image: pancakeRecipe.image,
+    title: pancakeRecipe.title,
+    readyInMinutes: pancakeRecipe.readyInMinutes,
+    likes: pancakeRecipe.likes,
+    vegan: pancakeRecipe.vegan,
+    glutenFree: pancakeRecipe.glutenFree,
+    viewed: pancakeRecipe.viewed,
+    favorite: pancakeRecipe.favorite,
+    ingredients: pancakeRecipe.ingredients,
+    instructions: pancakeRecipe.instructions,
+    servings: pancakeRecipe.servings,
   });
   res.send({ 1: 1 });
 };
-
-// await db.execQuery(`
-// INSERT INTO [dbo].[users]
-//   ([USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE])
-//   VALUES
-//   ('${username}', '${first_name}', '${last_name}', '${country}', HASHBYTES('SHA2_256', '${password}'), '${email}', '${image}')
-//   GO `);
 
 module.exports = addRecipeHandler;

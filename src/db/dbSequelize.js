@@ -11,9 +11,10 @@ const sequelize = new Sequelize(
     dialectOptions: {
       options: {
         encrypt: true,
+        enableArithAbort: true,
       },
     },
-    operatorsAliases: false,
+    // operatorsAliases: false,
   }
 );
 module.exports = async (app) => {
@@ -22,6 +23,14 @@ module.exports = async (app) => {
   db.Sequelize = Sequelize;
   db.sequelize = sequelize;
   db.recipes = require("../models/recipe.model")(sequelize, Sequelize);
+  db.users = require("../models/user.model")(sequelize, Sequelize);
+  db.usersRecipes = require("../models/userRecipes.model")(
+    sequelize,
+    Sequelize
+  );
+  db.viewed = require("../models/viewed.model")(sequelize, Sequelize);
+  db.users.belongsToMany(db.recipes, { through: db.usersRecipes });
+  db.recipes.belongsToMany(db.users, { through: db.usersRecipes });
 
   await sequelize.sync({ force: true });
   app.db = db;

@@ -1,4 +1,4 @@
-const newRecipe = {
+const pancakeRecipe = {
   image:
     "https://www.ambitiouskitchen.com/wp-content/uploads/2019/04/bananaoatmealpancakes-2.jpg",
   title: "Healthy Banana Oatmeal Pancakes",
@@ -64,4 +64,4 @@ const newRecipe = {
   servings: 3,
 };
 
-const recipeString = JSON.stringify(newRecipe);
+module.exports = pancakeRecipe;

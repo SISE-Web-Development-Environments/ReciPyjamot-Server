@@ -1,5 +1,7 @@
 const axios = require("axios");
 const db = require("../db/dbUtils");
+const crypto = require("crypto-js");
+
 const apiDomain = "https://api.spoonacular.com";
 
 const getRecipeInfoByID = (id) => {
@@ -59,21 +61,23 @@ const getRandomRecipeData = (count) => {
 };
 // -----------------------------------------------------------------
 const login = async (username, password) => {
+  console.log(`in utils in login checking ${username} with ${password}`);
   return isUsernameTaken(username) && authenticate(username, password);
 };
 const registerInDB = async (registerRequest) => {
   console.log(`extracting registration info from request`);
+  const passwordSHA = crypto.SHA256(registerRequest.body.password);
   const {
     username,
     first_name,
     last_name,
     country,
-    password,
+    password = passwordSHA,
     confirmation_password,
     email,
     image,
-  } = registerRequest;
-  if (isUsernameTaken(username)) {
+  } = registerRequest.body;
+  if (await isUsernameTaken(username)) {
     console.log(`username ${username} is taken`);
     return false;
   }
@@ -81,22 +85,26 @@ const registerInDB = async (registerRequest) => {
     console.log(`confirmation password does not match password`);
     return false;
   }
-  await db.execQuery(`
-  INSERT INTO [dbo].[users]
-    ([USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE])
-    VALUES
-    ('${username}', '${first_name}', '${last_name}', '${country}', HASHBYTES('SHA2_256', '${password}'), '${email}', '${image}')
-    GO `);
+  const query = `INSERT INTO [dbo].[users]
+  ([USERNAME], [FIRSTNAME], [LASTNAME], [COUNTRY], [PASSWORD], [EMAIL] ,[IMAGE])
+  VALUES
+  ('${username}', '${first_name}', '${last_name}', '${country}', '${password}', '${email}', '${image}')`;
+  await db.execQuery(query);
   return true;
 };
 // private functions
 const authenticate = async (username, password) => {
-  const passwordDB = await db.execQuery(
+  console.log(`in utils in ${this} checking ${password} in DB`);
+  let passwordDB = await db.execQuery(
     `select password from users where username = '${username}'`
   );
-  return password == passwordDB;
+  passwordDB = passwordDB[0].password;
+  const hashPassword = await crpto.SHA256(password);
+  console.log(`comparing ${hashPassword} to ${passwordDB} `);
+  return hashPassword == passwordDB;
 };
 const isUsernameTaken = async (username) => {
+  console.log(`in utils in ${this} checking ${username}`);
   const users = await db.execQuery(
     `select username from users where username = '${username}'`
   );

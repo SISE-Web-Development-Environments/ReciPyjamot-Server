@@ -1,5 +1,5 @@
 const axios = require("axios");
-const db = require("./db/DButils");
+const db = require("../db/DButils");
 const apiDomain = "https://api.spoonacular.com";
 
 const getRecipeInfoByID = (id) => {

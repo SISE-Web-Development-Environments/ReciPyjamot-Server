@@ -4,14 +4,19 @@ const {
   getRecipeInstructionsByID,
 } = require("../shared");
 
-const getRecipe = async (req, res, next) => {
+const getRecipeHandler = async (req, res, next) => {
   try {
-    // for information https://api.spoonacular.com/recipes/${id}/information
-    const infoAPI = await getRecipeInfoByID(req.params.id); // get the recipe info by given id
-    // for ingredients https://api.spoonacular.com/recipes/{id}/ingredientWidget.json
-    const ingredientsAPI = await getRecipeIngredientsByID(req.params.id); // get the recipe's ingredients by given id
-    // for instrunctions GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
-    const instructionsAPI = await getRecipeInstructionsByID(req.params.id); // get the recipe intructions by given id
+    const [infoAPI, ingredientsAPI, instructionsAPI] = await Promise.all([
+      getRecipeInfoByID(req.params.id), // get the recipe info by given id,
+      getRecipeIngredientsByID(req.params.id), // get the recipe's ingredients by given id
+      getRecipeInstructionsByID(req.params.id), // get the recipe intructions by given id
+    ]);
+    // // for information https://api.spoonacular.com/recipes/${id}/information
+    // const infoAPI = await getRecipeInfoByID(req.params.id); // get the recipe info by given id
+    // // for ingredients https://api.spoonacular.com/recipes/{id}/ingredientWidget.json
+    // const ingredientsAPI = await getRecipeIngredientsByID(req.params.id); // get the recipe's ingredients by given id
+    // // for instrunctions GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
+    // const instructionsAPI = await getRecipeInstructionsByID(req.params.id); // get the recipe intructions by given id
 
     // set preview
     const preview = {
@@ -51,4 +56,4 @@ const getRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = getRecipe;
+module.exports = getRecipeHandler;

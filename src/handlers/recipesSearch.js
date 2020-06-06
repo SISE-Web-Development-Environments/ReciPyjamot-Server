@@ -6,7 +6,7 @@ const {
 
 const apiDomain = "https://api.spoonacular.com";
 
-const recipesSearch = async (req, res, next) => {
+const recipesSearchHandler = async (req, res, next) => {
   try {
     const { query, cuisine, diet, intolerances, number } = req.body;
     const searchResponse = await axios.get(`${apiDomain}/recipes/search`, {
@@ -32,4 +32,4 @@ const recipesSearch = async (req, res, next) => {
   }
 };
 
-module.exports = recipesSearch;
+module.exports = recipesSearchHandler;

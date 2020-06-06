@@ -3,7 +3,7 @@ const {
   getRandomRecipeData,
 } = require("../shared/utils");
 
-const getRandomRecipe = async (req, res, next) => {
+const getRandomRecipesHandler = async (req, res, next) => {
   try {
     // for random recipes https://api.spoonacular.com/recipes/random
     const randomRecipesAPI = await getRandomRecipeData(req.body.number); // get the recipe info by given id
@@ -19,4 +19,4 @@ const getRandomRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = getRandomRecipe;
+module.exports = getRandomRecipesHandler;

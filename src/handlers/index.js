@@ -1,6 +1,6 @@
-const recipesSearch = require("./recipesSearch");
-const getRecipe = require("./getRecipe");
-const getRandomRecipes = require("./getRandomRecipes");
+const recipesSearchHandler = require("./recipesSearch");
+const getRecipeHandler = require("./recipesGetById");
+const getRandomRecipesHandler = require("./recipesGetRandom");
 const userLastSearchHandler = require("./userLastSearch");
 const userFamilyRecipesHandler = require("./userFamilyRecipes");
 const userFavoriteRecipesHandler = require("./userFavoriteRecipes");
@@ -8,6 +8,9 @@ const userLastWatchedRecipesHandler = require("./userLastWatchedRecipes");
 const userPersonalRecipesHandler = require("./userPersonalRecipes");
 const authRegisterHandler = require("./authRegister");
 const authLoginHandler = require("./authLogin");
+const addRecipeHandler = require("./dbAddRecipe");
+const getRecipeFromDBHandler = require("./dbGetRecipe");
+const getUserHandler = require("./dbGetUser");
 
 module.exports = {
   userHandlers: {
@@ -18,12 +21,17 @@ module.exports = {
     personal: userPersonalRecipesHandler,
   },
   recipesHandlers: {
-    recipesSearch: recipesSearch,
-    getRecipe: getRecipe,
-    getRandomRecipes: getRandomRecipes,
+    recipesSearch: recipesSearchHandler,
+    getRecipe: getRecipeHandler,
+    getRandomRecipes: getRandomRecipesHandler,
   },
   authenticationHandlers: {
     register: authRegisterHandler,
     login: authLoginHandler,
+  },
+  dbHandlers: {
+    addRecipe: addRecipeHandler,
+    getRecipe: getRecipeFromDBHandler,
+    getUser: getUserHandler,
   },
 };

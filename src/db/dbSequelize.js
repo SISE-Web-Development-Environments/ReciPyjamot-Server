@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
     // operatorsAliases: false,
   }
 );
-module.exports = async (app) => {
+module.exports = async (app, recreateTables = false) => {
   const db = {};
 
   db.Sequelize = Sequelize;
@@ -31,7 +31,8 @@ module.exports = async (app) => {
   db.viewed = require("../models/viewed.model")(sequelize, Sequelize);
   db.users.belongsToMany(db.recipes, { through: db.usersRecipes });
   db.recipes.belongsToMany(db.users, { through: db.usersRecipes });
-
-  await sequelize.sync({ force: true });
+  if (recreateTables) {
+    await sequelize.sync({ force: true });
+  }
   app.db = db;
 };

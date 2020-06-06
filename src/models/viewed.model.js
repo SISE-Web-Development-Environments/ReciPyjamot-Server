@@ -8,8 +8,6 @@ module.exports = (sequelize, Sequelize) => {
         model: "users",
         key: "id",
       },
-      //   references: "users",
-      //   referencesKey: "id",
     },
     recipeId: {
       // spoonacular recipe id only

@@ -1,4 +1,4 @@
-const pancakeRecipe = require("../models/jsonRecipes/pancakeRecipe");
+// const pancakeRecipe = require("../models/jsonRecipes/pancakeRecipe");
 
 const addRecipeHandler = async (req, res, next) => {
   await req.app.db.recipes.create({

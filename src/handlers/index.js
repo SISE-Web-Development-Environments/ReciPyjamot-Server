@@ -8,7 +8,6 @@ const userLastWatchedRecipesHandler = require("./userLastWatchedRecipes");
 const userPersonalRecipesHandler = require("./userPersonalRecipes");
 const authRegisterHandler = require("./authRegister");
 const authLoginHandler = require("./authLogin");
-const addRecipeHandler = require("./dbAddRecipe");
 const getRecipeFromDBHandler = require("./dbGetRecipe");
 const getUserHandler = require("./dbGetUser");
 
@@ -30,7 +29,6 @@ module.exports = {
     login: authLoginHandler,
   },
   dbHandlers: {
-    addRecipe: addRecipeHandler,
     getRecipe: getRecipeFromDBHandler,
     getUser: getUserHandler,
   },

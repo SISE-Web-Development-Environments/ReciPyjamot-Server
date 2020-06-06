@@ -1,18 +1,18 @@
-const {register} = require("../shared");
+const { register } = require("../shared");
 
 const authRegisterHandler = async (req, res, next) => {
-  try{
+  try {
     const ans = await register(req);
     res.send({
       permission: ans,
-      massage: ans?"registration approved":"registration denied"
-    })
-  }catch(err){
-    console.log("error registratering user")
+      massage: ans ? "registration approved" : "registration denied",
+    });
+  } catch (err) {
+    console.log("error registratering user");
     res.send({
       permission: false,
-      massage: "error during user registration: "+err.message
-    })
+      massage: "error during user registration: " + err.message,
+    });
   }
 };
 

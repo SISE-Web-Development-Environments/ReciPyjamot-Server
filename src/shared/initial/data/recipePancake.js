@@ -1,4 +1,4 @@
-const pancakeRecipe = {
+const pancake = {
   image:
     "https://www.ambitiouskitchen.com/wp-content/uploads/2019/04/bananaoatmealpancakes-2.jpg",
   title: "Healthy Banana Oatmeal Pancakes",
@@ -64,4 +64,4 @@ const pancakeRecipe = {
   servings: 3,
 };
 
-module.exports = pancakeRecipe;
+module.exports = pancake;

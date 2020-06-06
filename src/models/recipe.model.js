@@ -1,10 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
   const Recipe = sequelize.define("recipes", {
-    // id: {
-    //   type: Sequelize.INTEGER,
-    //   // autoIncrement: true,
-    //   // primaryKey: true,
-    // },
     image: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -60,6 +55,16 @@ module.exports = (sequelize, Sequelize) => {
     servings: {
       type: Sequelize.INTEGER,
       allowNull: false,
+    },
+    family: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      get: function () {
+        return JSON.parse(this.getDataValue("family"));
+      },
+      set: function (val) {
+        return this.setDataValue("family", JSON.stringify(val));
+      },
     },
   });
   return Recipe;

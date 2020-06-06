@@ -8,9 +8,10 @@ const apiDomain = "https://api.spoonacular.com";
 
 const recipesSearchHandler = async (req, res, next) => {
   try {
-    const { query, cuisine, diet, intolerances, number } = req.body;
+    const { id, query, cuisine, diet, intolerances, number } = req.body;
     const searchResponse = await axios.get(`${apiDomain}/recipes/search`, {
       params: {
+        id,
         query,
         cuisine,
         diet,

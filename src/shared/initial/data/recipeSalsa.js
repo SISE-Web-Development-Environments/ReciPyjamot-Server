@@ -2,6 +2,7 @@ const salsa = {
   image: "https://spoonacular.com/recipeImages/713231-556x370.jpg",
   title: "Restaurant Style Salsa",
   readyInMinutes: 10,
+  likes: 1,
   vegan: true,
   gluten_free: true,
   viewed: true,

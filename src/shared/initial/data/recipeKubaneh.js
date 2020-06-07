@@ -1,0 +1,86 @@
+const kubaneh = {
+  image:
+    "https://3.bp.blogspot.com/-2mB_gW84CbM/Tk4Up8as7EI/AAAAAAAAOfw/t0vEymNL8L4/s1600/P1210513.JPG",
+  title: "Kubaneh",
+  readyInMinutes: 420,
+  likes: 1,
+  vegan: true,
+  glutenFree: false,
+  viewed: true,
+  favorite: true,
+  ingredients: [
+    {
+      name: "active dry yeast",
+      value: 1,
+      units: "",
+    },
+    {
+      name: "lukewarm water",
+      value: 0.3,
+      units: "cups",
+    },
+    {
+      name: "sugar",
+      value: 6,
+      units: "Tbsp",
+    },
+    {
+      name: "slat",
+      value: 1.5,
+      units: "tsps",
+    },
+    {
+      name: "margarine",
+      value: 5,
+      units: "Tbsp",
+    },
+    {
+      name: "boiling water",
+      value: 0.75,
+      units: "cups",
+    },
+    {
+      name: "all-purpose flour",
+      value: 3,
+      units: "cups",
+    },
+    {
+      name: "very soft margarine",
+      value: 0.5,
+      units: "cups",
+    },
+  ],
+  instructions: [
+    "Sprinkle yeast over lukewarm water and add 1 teaspoon sugar.",
+    "Leave for 10 minutes until yeast is foamy.",
+    "In a mixing bowl, combine remaining sugar, salt, 5 tablespoons margarine, and boiling water.",
+    "Stir until sugar and margarine is completely dissolved.",
+    "Stir in yeast mixture.",
+    "Add flour and mix with a wooden spoon until dough becomes difficult to stir.",
+    "Knead in remaining flour.",
+    "Knead dough vigorously on a lightly floured work surface, adding flour by tablespoons if necessary, until dough is very smooth but still soft, about 10 minutes.",
+    "Put dough in a clean, oiled bowl, cover with a damp cloth, and let rise in a warm place for 1 hour or until nearly doubled in volume.",
+    "Punch down dough, knead it briefly in bowl, cover, and let rise again in a warm place for about 1 hour; or refrigerate for 3 to 4 hours.",
+    "Generously rub a deep 2-quart baking dish with margarine or butter.",
+    "Divide dough into 8 pieces.",
+    "With a lightly oiled rolling pin, roll out one piece on a lightly oiled surface to a rectangle about 1/8 inch thick.",
+    "Spread with about 2 teaspoons of butter or margarine.",
+    "Roll up like a jelly roll.",
+    "Flatten resulting roll by tapping it with your knuckles and spread it with about 1 teaspoon butter, then roll up a spiral and place it in baking dish so that spiral design faces up.",
+    "Continue with remaining pieces of dough, placing them one next to the other and touching each other in dish.",
+    "If any margarine or butter remains, put it in small pieces on top.",
+    "Cover with greased paper or foil placed on surface of dough and with a tight lid.",
+    "Preheat oven to 225 degrees.",
+    "Bake 3 hours or until golden brown.",
+    "Turn out onto a plate, then reverse onto another plate and put back into baking dish, so it is now upside down.",
+    "Cover and bake another hour; or reduce oven temperature to 200 degrees and bake overnight.",
+    "(Bread can be baked ahead and reheated in its covered baking dish for about 45 minutes in a 225 degree oven.) Serve warm.",
+  ],
+  servings: 8,
+  family: {
+    who: "Grandmother",
+    when: "Every Saturday",
+  },
+};
+
+module.exports = kubaneh;

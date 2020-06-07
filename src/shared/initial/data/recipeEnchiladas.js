@@ -2,6 +2,7 @@ const enchiladas = {
   image: "https://spoonacular.com/recipeImages/296535-556x370.jpg",
   title: "Chicken Enchiladas",
   readyInMinutes: 45,
+  likes: 1,
   vegan: false,
   gluten_free: false,
   viewed: true,

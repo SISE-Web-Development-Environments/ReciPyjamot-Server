@@ -2,6 +2,7 @@ const salmonTacos = {
   image: "https://spoonacular.com/recipeImages/551484-556x370.jpg",
   title: "blackened salmon tacos with cilantro yogurt sauce",
   readyInMinutes: 45,
+  likes: 1,
   vegan: false,
   gluten_free: true,
   viewed: true,

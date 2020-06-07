@@ -71,8 +71,8 @@ const enchiladas = {
   ],
   servings: 6,
   family: {
-    who: "Mother",
-    when: "Every day",
+    who: "Father",
+    when: "On May 5th , also known as 'Cinco de Mayo'",
   },
 };
 

@@ -49,7 +49,7 @@ const getRecipeHandler = async (req, res, next) => {
     res.send({
       preview: preview,
       servings: infoAPI.data.servings,
-      ingrediants: ingredients, // TODO change the name 'ingrediants' to 'ingredients'
+      ingredients: ingredients,
       instructions: instructions,
     }); // sends the data we got
   } catch (err) {

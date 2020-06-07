@@ -7,7 +7,7 @@ const salmonTacos = {
   gluten_free: true,
   viewed: true,
   favorite: true,
-  ingrediants: [
+  ingredients: [
     {
       name: "diced avocado",
       value: 1,

@@ -29,8 +29,10 @@ module.exports = {
     yemeniteSoup,
     salmonTacos,
     plov,
+    // add personal recipe
     salsa,
     enchiladas,
+    // add family recipe
   ],
   usersRecipes: [
     { userId: 1, recipeId: 1, relation: "personal" },

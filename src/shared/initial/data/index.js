@@ -10,9 +10,11 @@ const cookie = require("./recipeCookie");
 // Haim: family
 const salsa = require("./recipeSalsa");
 const enchiladas = require("./recipeEnchiladas");
+const picoDeGallo = require("./recipePicoDeGallo");
 // Haim: personal
 const salmonTacos = require("./recipeSalmonTacos");
 const plov = require("./recipePlov");
+const pastaBatata = require("./recipePastaBatata");
 
 // users
 const sapir = require("./userSapir");
@@ -29,10 +31,10 @@ module.exports = {
     yemeniteSoup,
     salmonTacos,
     plov,
-    // add personal recipe
+    pastaBatata,
     salsa,
     enchiladas,
-    // add family recipe
+    picoDeGallo,
   ],
   usersRecipes: [
     { userId: 1, recipeId: 1, relation: "personal" },

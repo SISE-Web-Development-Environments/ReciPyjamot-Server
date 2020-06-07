@@ -126,10 +126,6 @@ const salmonTacos = {
     "Heat oil in medium skillet over medium-high heat.Once oil is hot, add salmon.  Cook 3-4 minutes per side, or until it flakes easily and is cooked through.Spoon flaked salmon into warmed tortilla shells.Top with corn and avocado salsa and yogurt sauce. Enjoy!",
   ],
   servings: 2,
-  family: {
-    who: "Grandmother",
-    when: "New Year",
-  },
 };
 
 module.exports = salmonTacos;

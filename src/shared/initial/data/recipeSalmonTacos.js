@@ -4,7 +4,7 @@ const salmonTacos = {
   readyInMinutes: 45,
   likes: 1,
   vegan: false,
-  gluten_free: true,
+  glutenFree: true,
   viewed: true,
   favorite: true,
   ingredients: [

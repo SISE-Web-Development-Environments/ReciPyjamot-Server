@@ -4,7 +4,7 @@ const salsa = {
   readyInMinutes: 10,
   likes: 1,
   vegan: true,
-  gluten_free: true,
+  glutenFree: true,
   viewed: true,
   favorite: true,
   ingredients: [

@@ -4,7 +4,7 @@ const enchiladas = {
   readyInMinutes: 45,
   likes: 1,
   vegan: false,
-  gluten_free: false,
+  glutenFree: false,
   viewed: true,
   favorite: true,
   ingredients: [

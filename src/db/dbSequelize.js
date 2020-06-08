@@ -28,6 +28,9 @@ module.exports = async (app, recreateTables = false) => {
     Sequelize
   );
   db.viewed = require("../models/viewed.model")(sequelize, Sequelize);
+
+  db.recipes.belongsToMany(db.users, { through: db.usersRecipes });
+  db.users.belongsToMany(db.recipes, { through: db.usersRecipes });
   db.usersRecipes.hasOne(db.recipes, { as: "recipe", foreignKey: "id" });
   db.usersRecipes.hasOne(db.users, { as: "user", foreignKey: "id" });
 

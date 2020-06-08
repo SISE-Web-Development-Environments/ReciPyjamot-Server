@@ -14,7 +14,6 @@ const sequelize = new Sequelize(
         enableArithAbort: true,
       },
     },
-    // operatorsAliases: false,
   }
 );
 module.exports = async (app, recreateTables = false) => {
@@ -29,8 +28,9 @@ module.exports = async (app, recreateTables = false) => {
     Sequelize
   );
   db.viewed = require("../models/viewed.model")(sequelize, Sequelize);
-  db.users.belongsToMany(db.recipes, { through: db.usersRecipes });
-  db.recipes.belongsToMany(db.users, { through: db.usersRecipes });
+  db.usersRecipes.hasOne(db.recipes, { as: "recipe", foreignKey: "id" });
+  db.usersRecipes.hasOne(db.users, { as: "user", foreignKey: "id" });
+
   if (recreateTables) {
     await sequelize.sync({ force: true });
   }

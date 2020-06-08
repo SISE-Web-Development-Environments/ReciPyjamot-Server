@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const { userHandlers } = require("../handlers");
 
 // The last search the user did
@@ -16,10 +16,5 @@ router.get("/lastWatched", userHandlers.lastWatched);
 
 // The user personal recipes page
 router.get("/", userHandlers.personal);
-
-router.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).send({ message: err.message, success: false });
-});
 
 module.exports = router;

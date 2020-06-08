@@ -34,5 +34,10 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
     },
   });
+
+  // User.associate = (models) => {
+  //   User.belongsTo(models.Country, { as: "user" });
+  // };
+
   return User;
 };

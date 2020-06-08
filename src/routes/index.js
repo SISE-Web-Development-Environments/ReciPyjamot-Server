@@ -8,7 +8,7 @@ const mainRouter = express.Router();
 
 mainRouter.use("/recipes", recipesRouter);
 mainRouter.use("/auth", authRouter);
-mainRouter.use("/user/:username", userRouter);
+mainRouter.use("/user/:userId", userRouter);
 mainRouter.use("/db", dbRouter);
 
 module.exports = mainRouter;

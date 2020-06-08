@@ -13,5 +13,10 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
+
+  // UserRecipe.associate = () => {
+  //   UserRecipe.belongsTo(global.db.user, { as: "user" });
+  //   UserRecipe.belongsTo(global.db.recipes, { as: "recipes" });
+  // };
   return UserRecipe;
 };

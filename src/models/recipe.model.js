@@ -60,7 +60,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
       get: function () {
-        return JSON.parse(this.getDataValue("family"));
+        return (
+          (this.getDataValue("family") &&
+            JSON.parse(this.getDataValue("family"))) ||
+          null
+        );
       },
       set: function (val) {
         return this.setDataValue("family", JSON.stringify(val));

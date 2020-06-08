@@ -20,34 +20,43 @@ const pastaBatata = require("./recipePastaBatata");
 const sapir = require("./userSapir");
 const haim = require("./userHaim");
 
+const userRecipe = (dbRecords, username, title) => {
+  const userSapir = dbRecords.users.find((user) => user.username === username);
+  const recipePancake = dbRecords.recipes.find(
+    (recipe) => recipe.title === title
+  );
+  const relation = recipePancake.family === null ? "personal" : "family";
+  return { userId: userSapir.id, recipeId: recipePancake.id, relation };
+};
+
 module.exports = {
-  users: [sapir, haim],
+  users: [() => sapir, () => haim],
   recipes: [
-    pancake,
-    smoothie,
-    cookie,
-    kubaneh,
-    lahoh,
-    yemeniteSoup,
-    salmonTacos,
-    plov,
-    pastaBatata,
-    salsa,
-    enchiladas,
-    picoDeGallo,
+    () => pancake,
+    () => smoothie,
+    () => cookie,
+    () => kubaneh,
+    () => lahoh,
+    () => yemeniteSoup,
+    () => salmonTacos,
+    () => plov,
+    () => pastaBatata,
+    () => salsa,
+    () => enchiladas,
+    () => picoDeGallo,
   ],
-  // usersRecipes: [
-  //   { userId: 1, recipeId: 1, relation: "personal" },
-  //   { userId: 1, recipeId: 2, relation: "personal" },
-  //   { userId: 1, recipeId: 3, relation: "personal" },
-  //   { userId: 1, recipeId: 4, relation: "family" },
-  //   { userId: 1, recipeId: 5, relation: "family" },
-  //   { userId: 1, recipeId: 6, relation: "family" },
-  //   { userId: 2, recipeId: 7, relation: "personal" },
-  //   { userId: 2, recipeId: 8, relation: "personal" },
-  //   { userId: 2, recipeId: 9, relation: "personal" },
-  //   { userId: 2, recipeId: 10, relation: "family" },
-  //   { userId: 2, recipeId: 11, relation: "family" },
-  //   { userId: 2, recipeId: 12, relation: "family" },
-  // ],
+  usersRecipes: [
+    (dbRecords) => userRecipe(dbRecords, sapir.username, kubaneh.title),
+    (dbRecords) => userRecipe(dbRecords, sapir.username, lahoh.title),
+    (dbRecords) => userRecipe(dbRecords, sapir.username, yemeniteSoup.title),
+    (dbRecords) => userRecipe(dbRecords, sapir.username, pancake.title),
+    (dbRecords) => userRecipe(dbRecords, sapir.username, smoothie.title),
+    (dbRecords) => userRecipe(dbRecords, sapir.username, cookie.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, salsa.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, enchiladas.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, picoDeGallo.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, salmonTacos.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, plov.title),
+    (dbRecords) => userRecipe(dbRecords, haim.username, pastaBatata.title),
+  ],
 };

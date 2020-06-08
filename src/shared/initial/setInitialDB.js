@@ -9,11 +9,20 @@ const dbSequelize = require("../../db/dbSequelize");
 (async () => {
   try {
     const conn = {};
+    const dbRecords = {};
     await dbSequelize(conn, true);
     for (const [table, entries] of Object.entries(data)) {
-      entries.forEach(async (entry) => {
-        await conn.db[table].create(entry);
-      });
+      dbRecords[table] = [];
+      for await (const entry of entries) {
+        const object = entry(dbRecords);
+        const resp = await conn.db[table].create(object);
+        dbRecords[table].push(resp);
+      }
+      // entries.forEach(async (entry) => {
+      //   const object = entry(dbRecords);
+      //   const resp = await conn.db[table].create(object);
+      //   dbRecords[table].push(resp);
+      // });
     }
   } catch (e) {
     console.log(e);

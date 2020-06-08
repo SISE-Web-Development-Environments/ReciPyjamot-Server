@@ -9,7 +9,8 @@
       "request": "launch",
       "name": "populate DB",
       "program": "${workspaceFolder}/src/shared/initial/setInitialDb.js",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
     },
     {
       "type": "node",

@@ -112,8 +112,9 @@ const unfavoriteRecipeByUser = async (userId,recipeId) => {
 const favoriteRecipeByUser = async (userId,recipeId) => {
   const isViewed = await isViewedByUser(userId,recipeId);
   if(!isViewed){
-    await db.execQuery(`INSERT INTO vieweds (userId, recipeId, favorite,createdAt,updatedAt)
-      VALUES (${userId},${recipeId},'1','${getNow()}',''${getNow()}''); `)
+    const query = `INSERT INTO vieweds (userId, recipeId, favorite,createdAt,updatedAt)
+    VALUES ('${userId}','${recipeId}','1','${getNow()}','${getNow()}'); `;
+    await db.execQuery(query)
       return {answer: true, message: `successfuly favorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`}
     }
   const isFavorated =  await isFavoratedByUser(userId,recipeId);

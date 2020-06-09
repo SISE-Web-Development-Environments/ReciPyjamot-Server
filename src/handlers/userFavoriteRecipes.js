@@ -1,4 +1,4 @@
-const utils = require("../shared/utils")
+const utils = require("../shared/utils");
 const userFavoriteRecipesHandler = async (req, res, next) => {
   const db = req.app.db;
   const id = req.params.userId;
@@ -9,17 +9,18 @@ const userFavoriteRecipesHandler = async (req, res, next) => {
   });
   const allUserRecipesId = allUserRecipes.map(({ recipe }) => recipe);
 
-  const favorite = await db.viewed.findAll({
+  const favorites = await db.viewed.findAll({
     where: { userId: id, favorite: true },
     raw: true,
   });
-  const favoritesAPI = await favorite.map(async (record) =>{await utils.getRecipePreviewByData(await utils.getRecipeInfoByID(record.recipeId));
-    // const infoAPI = await utils.getRecipeInfoByID(record.recipeId);
-    // const preview = await utils.getRecipePreviewByData(infoAPI.data)
-    // await favoritesAPI.push(preview);
-  })
+
+  const favoriteRecipes = [];
+  for await (const favorite of favorites) {
+    const { data: recipe } = await utils.getRecipeInfoByID(favorite.recipeId);
+    favoriteRecipes.push(utils.getRecipePreviewByData(recipe));
+  }
   // return value
-  res.json({ db: allUserRecipesId, spoonacular: favoritesAPI });
+  res.json({ db: allUserRecipesId, spoonacular: favoriteRecipes });
 };
 
 module.exports = userFavoriteRecipesHandler;

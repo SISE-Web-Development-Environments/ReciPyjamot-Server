@@ -34,6 +34,12 @@ module.exports = async (app, recreateTables = false) => {
   db.usersRecipes.hasOne(db.recipes, { as: "recipe", foreignKey: "id" });
   db.usersRecipes.hasOne(db.users, { as: "user", foreignKey: "id" });
 
+  db.users.hasMany(db.viewed, { as: "views" });
+  db.viewed.belongsTo(db.users, {
+    foreignKey: "userId",
+    as: "user",
+  });
+
   if (recreateTables) {
     await sequelize.sync({ force: true });
   }

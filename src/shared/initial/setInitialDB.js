@@ -1,6 +1,5 @@
 require("dotenv").config();
 const data = require("./data");
-// loadFiles();
 
 // init sequelize
 const dbSequelize = require("../../db/dbSequelize");
@@ -18,11 +17,6 @@ const dbSequelize = require("../../db/dbSequelize");
         const resp = await conn.db[table].create(object);
         dbRecords[table].push(resp);
       }
-      // entries.forEach(async (entry) => {
-      //   const object = entry(dbRecords);
-      //   const resp = await conn.db[table].create(object);
-      //   dbRecords[table].push(resp);
-      // });
     }
   } catch (e) {
     console.log(e);

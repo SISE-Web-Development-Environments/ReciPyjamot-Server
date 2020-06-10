@@ -1,7 +1,6 @@
-const sessionMiddleware = require("./session");
+const errorMiddleware = require("./errorMiddleware");
 const appMiddleware = (app) => {
-  app.use(sessionMiddleware);
-  // app.use(logger("dev")); // logger
+  app.use(errorMiddleware);
 };
 
 module.exports = appMiddleware;

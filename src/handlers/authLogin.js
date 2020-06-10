@@ -1,14 +1,14 @@
-const {login} = require("../shared");
+const { login } = require("../shared");
+
 const authLoginHandler = async (req, res, next) => {
-  try{
-    const ans = await login(req.body.username,req.body.password);
-    if(ans){
-      res.status(200).send('succesful login');
-    }
-  }catch(err){
-    console.log("error authenticating username and password")
-    res.status(400).send('bad request '+err);
+  const userId = await login(req.body.username, req.body.password);
+  if (userId) {
+    next();
+    req.session.user_id = userId;
+    res.json({ result: "success" });
+    return;
   }
+  next(new Error("error authenticating username and password"));
 };
 
 module.exports = authLoginHandler;

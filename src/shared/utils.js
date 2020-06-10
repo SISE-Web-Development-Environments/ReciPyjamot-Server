@@ -62,7 +62,8 @@ const getRandomRecipeData = (count) => {
 // -----------------------------------------------------------------
 const login = async (username, password) => {
   console.log(`in utils in login checking ${username} with ${password}`);
-  return isUsernameTaken(username) && authenticate(username, password);
+  const userId = await authenticate(username, password);
+  return userId;
 };
 const registerInDB = async (registerRequest) => {
   console.log(`extracting registration info from request`);
@@ -93,46 +94,75 @@ const registerInDB = async (registerRequest) => {
   return true;
 };
 // -------------------------favorite and viewed
-const viewRecipe = async (userId,recipeId) => {
-  const viewed = await isViewedByUser(userId,recipeId);
-  if(!viewed){
+const viewRecipe = async (userId, recipeId) => {
+  const viewed = await isViewedByUser(userId, recipeId);
+  if (!viewed) {
     await db.execQuery(`INSERT INTO vieweds (userId, recipeId, favorite,createdAt,updatedAt)
-    VALUES (${userId},${recipeId},'0','${getNow()}','${getNow()}'); `) 
-    return {answer: true, message: `recipe with ID: '${recipeId}' is now viewed by user with ID: '${userId}'`}
+    VALUES (${userId},${recipeId},'0','${getNow()}','${getNow()}'); `);
+    return {
+      answer: true,
+      message: `recipe with ID: '${recipeId}' is now viewed by user with ID: '${userId}'`,
+    };
   }
-  return {answer: false, message: `recipe with ID: '${recipeId}' was already viewed by user with ID: '${userId}'`}
-}
-const unfavoriteRecipeByUser = async (userId,recipeId) => {
-  const isFavorated =  await isFavoratedByUser(userId,recipeId);
-  if(isFavorated==false)
-    return {answer: false, message: `recipe with ID: '${recipeId}' isn't favorited by user with ID: '${userId}'`}
-  else await db.execQuery(`update vieweds set favorite='0' WHERE userId = '${userId}' and recipeId = '${recipeId}'`)
-  return {answer: true, message: `successfuly unfavorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`}
-}
-const favoriteRecipeByUser = async (userId,recipeId) => {
-  const isViewed = await isViewedByUser(userId,recipeId);
-  if(!isViewed){
+  return {
+    answer: false,
+    message: `recipe with ID: '${recipeId}' was already viewed by user with ID: '${userId}'`,
+  };
+};
+const unfavoriteRecipeByUser = async (userId, recipeId) => {
+  const isFavorated = await isFavoratedByUser(userId, recipeId);
+  if (isFavorated == false)
+    return {
+      answer: false,
+      message: `recipe with ID: '${recipeId}' isn't favorited by user with ID: '${userId}'`,
+    };
+  else
+    await db.execQuery(
+      `update vieweds set favorite='0' WHERE userId = '${userId}' and recipeId = '${recipeId}'`
+    );
+  return {
+    answer: true,
+    message: `successfuly unfavorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`,
+  };
+};
+const favoriteRecipeByUser = async (userId, recipeId) => {
+  const isViewed = await isViewedByUser(userId, recipeId);
+  if (!isViewed) {
     const query = `INSERT INTO vieweds (userId, recipeId, favorite,createdAt,updatedAt)
     VALUES ('${userId}','${recipeId}','1','${getNow()}','${getNow()}'); `;
-    await db.execQuery(query)
-      return {answer: true, message: `successfuly favorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`}
-    }
-  const isFavorated =  await isFavoratedByUser(userId,recipeId);
-  if(isFavorated)
-    return {answer: false, message: `recipe with ID: '${recipeId}' already favorited by user with ID: '${userId}'`}
-  else await db.execQuery(`update vieweds set favorite='1' WHERE userId = '${userId}' and recipeId = '${recipeId}'`)
-  return {answer: true, message: `successfuly favorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`}
-}
+    await db.execQuery(query);
+    return {
+      answer: true,
+      message: `successfuly favorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`,
+    };
+  }
+  const isFavorated = await isFavoratedByUser(userId, recipeId);
+  if (isFavorated)
+    return {
+      answer: false,
+      message: `recipe with ID: '${recipeId}' already favorited by user with ID: '${userId}'`,
+    };
+  else
+    await db.execQuery(
+      `update vieweds set favorite='1' WHERE userId = '${userId}' and recipeId = '${recipeId}'`
+    );
+  return {
+    answer: true,
+    message: `successfuly favorited recipe with ID: '${recipeId}' by user with ID: '${userId}'`,
+  };
+};
 // private functions
 const authenticate = async (username, password) => {
   console.log(`in utils in ${this} checking ${password} in DB`);
-  let passwordDB = await db.execQuery(
-    `select password from users where username = '${username}'`
+  const userDB = await db.execQuery(
+    `select id, password from users where username = '${username}'`
   );
-  passwordDB = passwordDB[0].password;
-  const hashPassword = await crpto.SHA256(password);
-  console.log(`comparing ${hashPassword} to ${passwordDB} `);
-  return hashPassword == passwordDB;
+  if (userDB.length === 0) {
+    return null;
+  }
+  const [{ password: dbPassword, id: userId }] = userDB;
+  const hashPassword = await crypto.SHA256(password);
+  return (hashPassword == dbPassword && userId) || null;
 };
 const isUsernameTaken = async (username) => {
   console.log(`in utils in ${this} checking ${username}`);
@@ -141,22 +171,28 @@ const isUsernameTaken = async (username) => {
   );
   return users.length != 0;
 };
-const isFavoratedByUser = async (userId,recipeId) => {
-  const record =  await db.execQuery(`select favorite from vieweds where userId = '${userId}' and recipeId = '${recipeId}'`);
-  if(record.length==0)// which means that the recipe hasn't even been viewed by the user
-    return false; 
+const isFavoratedByUser = async (userId, recipeId) => {
+  const record = await db.execQuery(
+    `select favorite from vieweds where userId = '${userId}' and recipeId = '${recipeId}'`
+  );
+  if (record.length == 0)
+    // which means that the recipe hasn't even been viewed by the user
+    return false;
   else return record[0].favorite;
-}
-const isViewedByUser = async (userId,recipeId) => {
-  const record =  await db.execQuery(`select favorite from vieweds where userId = '${userId}' and recipeId = '${recipeId}'`);
-  if(record.length==0)// which means that the recipe hasn't been viewed by the user
-    return false; 
+};
+const isViewedByUser = async (userId, recipeId) => {
+  const record = await db.execQuery(
+    `select favorite from vieweds where userId = '${userId}' and recipeId = '${recipeId}'`
+  );
+  if (record.length == 0)
+    // which means that the recipe hasn't been viewed by the user
+    return false;
   else return true;
-}
+};
 // place holder function
 const getNow = () => {
   return `2020-06-06T19:16:29.0940000+00:00`;
-}
+};
 module.exports = {
   getRecipeInfoByID: getRecipeInfoByID,
   getRecipeInstructionsByID: getRecipeInstructionsByID,
@@ -164,10 +200,10 @@ module.exports = {
   getRecipePreviewByData: getRecipePreviewByData,
   getRandomRecipeData: getRandomRecipeData,
   register: registerInDB,
-  login: login,
+  login,
   favorite: favoriteRecipeByUser,
   isFavorite: isFavoratedByUser,
   unfavorite: unfavoriteRecipeByUser,
   view: viewRecipe,
-  isViewed: isViewedByUser
+  isViewed: isViewedByUser,
 };

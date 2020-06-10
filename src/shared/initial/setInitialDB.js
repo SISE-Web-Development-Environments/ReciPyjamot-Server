@@ -19,6 +19,6 @@ const dbSequelize = require("../../db/dbSequelize");
       }
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 })();

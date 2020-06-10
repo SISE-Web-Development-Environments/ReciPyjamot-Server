@@ -22,12 +22,12 @@ app.use(express.static(path.join(__dirname, "public"))); // To serve static file
 const port = process.env.PORT || "3000";
 
 const server = app.listen(port, () => {
-  console.log(`Server listen on port ${port}`);
+  // console.log(`Server listen on port ${port}`);
 });
 
 process.on("SIGINT", () => {
   if (server) {
-    server.close(() => console.log("server closed"));
+    server.close(/* () => console.log("server closed")*/);
   }
   process.exit();
 });

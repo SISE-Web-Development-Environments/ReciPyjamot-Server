@@ -166,6 +166,8 @@ module.exports = {
   register: registerInDB,
   login: login,
   favorite: favoriteRecipeByUser,
+  isFavorite: isFavoratedByUser,
   unfavorite: unfavoriteRecipeByUser,
-  view: viewRecipe
+  view: viewRecipe,
+  isViewed: isViewedByUser
 };

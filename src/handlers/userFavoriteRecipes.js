@@ -1,5 +1,6 @@
 const utils = require("../shared/utils");
 const userFavoriteRecipesHandler = async (req, res, next) => {
+  try{
   const db = req.app.db;
   const id = req.params.userId;
   // get from db
@@ -20,7 +21,10 @@ const userFavoriteRecipesHandler = async (req, res, next) => {
     favoriteRecipes.push(utils.getRecipePreviewByData(recipe));
   }
   // return value
-  res.json({ db: allUserRecipesId, spoonacular: favoriteRecipes });
+  res.status(200).json({ db: allUserRecipesId, spoonacular: favoriteRecipes });
+  }catch(err){
+    res.status(400).send("bad request");
+  }
 };
 
 module.exports = userFavoriteRecipesHandler;

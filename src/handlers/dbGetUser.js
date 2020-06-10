@@ -1,4 +1,5 @@
 const getUserHandler = async (req, res, next) => {
+  try{
   const db = req.app.db;
   const id = req.params.userId;
   // get from db
@@ -6,6 +7,9 @@ const getUserHandler = async (req, res, next) => {
     where: { userId: id },
   });
   // return value
-  res.json(user);
+  res.status(200).json(user);
+  }catch(err){
+    res.status(400).send('bad request '+err);
+  }
 };
 module.exports = getUserHandler;

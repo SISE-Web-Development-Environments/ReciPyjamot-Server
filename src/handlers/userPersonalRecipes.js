@@ -1,4 +1,5 @@
 const userPersonalRecipesHandler = async (req, res, next) => {
+  try{
   const db = req.app.db;
   const id = req.params.userId;
   // get from db
@@ -8,7 +9,10 @@ const userPersonalRecipesHandler = async (req, res, next) => {
   });
   const personalRecipes = personal.map(({ recipe }) => recipe);
   // return value
-  res.json(personalRecipes);
+  res.status(200).json(personalRecipes);
+  }catch(err){
+    res.status(400).send('bad request '+err);
+  }
 };
 
 module.exports = userPersonalRecipesHandler;

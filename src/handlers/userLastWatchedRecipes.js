@@ -1,4 +1,5 @@
 const userLastWatchedRecipesHandler = async (req, res, next) => {
+  try{
   const db = req.app.db;
   const id = req.params.userId;
   const lastWatched = await db.viewed.findAll({
@@ -9,7 +10,10 @@ const userLastWatchedRecipesHandler = async (req, res, next) => {
 
   const lastWatchedObj = lastWatched.map(({ recipe }) => recipe);
   // return value
-  res.json(lastWatchedObj.slice(0, 2));
+  res.status(200).json(lastWatchedObj.slice(0, 2));
+  }catch(err){
+    res.status(400).send("bad request");
+  }
 };
 
 module.exports = userLastWatchedRecipesHandler;

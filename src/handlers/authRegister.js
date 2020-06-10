@@ -3,16 +3,14 @@ const { register } = require("../shared");
 const authRegisterHandler = async (req, res, next) => {
   try {
     const ans = await register(req);
-    res.send({
-      permission: ans,
-      massage: ans ? "registration approved" : "registration denied",
-    });
+    if(ans){
+      res.status(201).send("successfull registration new user created");
+    }
+    else{
+      res.status(400).send("bad request");
+    }
   } catch (err) {
-    console.log("error registratering user");
-    res.send({
-      permission: false,
-      massage: "error during user registration: " + err.message,
-    });
+    res.status(400).send("bad request");
   }
 };
 

@@ -40,8 +40,8 @@ async function test() {
 
   // await db.execQuery(`delete from vieweds WHERE userId = '2' and recipeId = '1234'`)
 
-  console.log("first we try to fav");
-  console.log(await testTheUtils.favorite("2", "223509"));
+  //console.log("first we try to fav");
+  //console.log(await testTheUtils.favorite("2", "223509"));
   // console.log("first we try to fav again (should fail)")
   // console.log(await testTheUtils.favorite("2","1234"))
   // console.log("and then we try to unfav")

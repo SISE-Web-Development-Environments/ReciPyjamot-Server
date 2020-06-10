@@ -1,4 +1,5 @@
 const {
+  isFavorite,
   getRecipeInfoByID,
   getRecipeIngredientsByID,
   getRecipeInstructionsByID,
@@ -27,8 +28,8 @@ const getRecipeHandler = async (req, res, next) => {
       likes: infoAPI.data.likes,
       vegan: infoAPI.data.vegan, // TODO change the word 'vegen' to 'vegan' in the API
       gluten_free: infoAPI.data.glutenFree,
-      viewed: infoAPI.data.viewed, // TODO get from user
-      favorite: infoAPI.data.favorite, // TODO get from user
+      viewed: isViewed(userId,infoAPI.data.id), // TODO get userId
+      favorite: isFavorite(userId,infoAPI.data.id), // TODO get userId
     };
     const ingredients = [];
     ingredientsAPI.data.ingredients.forEach((ingredient) => {
@@ -53,6 +54,7 @@ const getRecipeHandler = async (req, res, next) => {
       instructions: instructions,
     }); // sends the data we got
   } catch (err) {
+    res.status(402).send('bad request '+err);
     console.log(err);
   }
 };

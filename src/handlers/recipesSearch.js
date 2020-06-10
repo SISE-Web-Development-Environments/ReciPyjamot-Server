@@ -27,8 +27,13 @@ const recipesSearchHandler = async (req, res, next) => {
       )
     );
     recipes = recipes.map((recipe) => getRecipePreviewByData(recipe.data));
-    res.send({ data: recipes });
+    if(recipes.length!=0){
+      res.status(200).send(recipes);
+    }else{
+      res.status(404).send('no results found');
+    }
   } catch (error) {
+    res.status(400).send('bad request');  
     next(error);
   }
 };

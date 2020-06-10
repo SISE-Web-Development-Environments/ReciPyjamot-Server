@@ -13,8 +13,9 @@ const getRandomRecipesHandler = async (req, res, next) => {
         previews.push(getRecipePreviewByData(recipeData));
       });
     }
-    res.send(previews); // sends the data we got
+    res.status(200).send(previews); // sends the data we got
   } catch (err) {
+    res.status(400).send("bad request"); // sends the data we got
     console.log(err);
   }
 };

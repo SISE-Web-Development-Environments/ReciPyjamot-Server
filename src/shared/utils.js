@@ -6,7 +6,6 @@ const apiDomain = "https://api.spoonacular.com";
 
 const getRecipeInfoByID = (id) => {
   // for information https://api.spoonacular.com//${id}/information
-  console.log(`requesting: ${apiDomain}/recipes/${id}/information`);
   return axios.get(`${apiDomain}/recipes/${id}/information`, {
     params: {
       includeNutrition: true,
@@ -16,7 +15,6 @@ const getRecipeInfoByID = (id) => {
 };
 const getRecipeInstructionsByID = (id) => {
   // for instructions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
-  console.log(`requesting: ${apiDomain}/recipes/${id}/analyzedInstructions`);
   return axios.get(`${apiDomain}/recipes/${id}/analyzedInstructions`, {
     params: {
       includeNutrition: false,
@@ -26,7 +24,6 @@ const getRecipeInstructionsByID = (id) => {
 };
 const getRecipeIngredientsByID = (id) => {
   // for ingredients https://api.spoonacular.com/recipes/{id}/ingredientWidget.json
-  console.log(`requesting: ${apiDomain}/recipes/${id}/ingredientWidget.json`);
   return axios.get(`${apiDomain}/recipes/${id}/ingredientWidget.json`, {
     params: {
       includeNutrition: false,
@@ -51,7 +48,6 @@ const getRecipePreviewByData = (infoAPIData) => {
 };
 const getRandomRecipeData = (count) => {
   // for ingredients // for random recipes https://api.spoonacular.com/recipes/random?number=count
-  console.log(`requesting: ${apiDomain}/recipes/random?number=${count}`);
   return axios.get(`${apiDomain}/recipes/random?number=${count}`, {
     params: {
       includeNutrition: false,
@@ -61,12 +57,10 @@ const getRandomRecipeData = (count) => {
 };
 // -----------------------------------------------------------------
 const login = async (username, password) => {
-  console.log(`in utils in login checking ${username} with ${password}`);
   const userId = await authenticate(username, password);
   return userId;
 };
 const registerInDB = async (registerRequest) => {
-  console.log(`extracting registration info from request`);
   const passwordSHA = crypto.SHA256(registerRequest.body.password);
   const {
     username,
@@ -79,11 +73,9 @@ const registerInDB = async (registerRequest) => {
     image,
   } = registerRequest.body;
   if (await isUsernameTaken(username)) {
-    console.log(`username ${username} is taken`);
     return false;
   }
   if (password != confirmation_password) {
-    console.log(`confirmation password does not match password`);
     return false;
   }
   const query = `INSERT INTO [dbo].[users]
@@ -153,7 +145,6 @@ const favoriteRecipeByUser = async (userId, recipeId) => {
 };
 // private functions
 const authenticate = async (username, password) => {
-  console.log(`in utils in ${this} checking ${password} in DB`);
   const userDB = await db.execQuery(
     `select id, password from users where username = '${username}'`
   );
@@ -165,7 +156,6 @@ const authenticate = async (username, password) => {
   return (hashPassword == dbPassword && userId) || null;
 };
 const isUsernameTaken = async (username) => {
-  console.log(`in utils in ${this} checking ${username}`);
   const users = await db.execQuery(
     `select username from users where username = '${username}'`
   );

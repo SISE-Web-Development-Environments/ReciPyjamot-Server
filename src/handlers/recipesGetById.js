@@ -55,7 +55,6 @@ const getRecipeHandler = async (req, res, next) => {
     }); // sends the data we got
   } catch (err) {
     res.status(402).send('bad request '+err);
-    console.log(err);
   }
 };
 

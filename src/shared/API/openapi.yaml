@@ -1,0 +1,501 @@
+openapi: 3.0.0
+info:
+  title: Simple Inventory API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+- url: https://virtserver.swaggerhub.com/HaimReyes/APjamot/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/HaimReyes/APjamot/1.0.1
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: user
+  description: all actions user oriented
+- name: db
+  description: all actions on the Azure DB
+- name: recipes
+  description: all actions on recipes from Spoonacular
+- name: authentication
+  description: login and registration
+paths:
+  /auth/register:
+    post:
+      tags:
+      - authentication
+      summary: registration
+      description: will send username,first name, last name, country, password, confirmation
+        password, email and picture url for registration
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/register_body'
+      responses:
+        "201":
+          description: successfull registration new user created
+        "400":
+          description: bad request
+  /auth/login:
+    post:
+      tags:
+      - authentication
+      summary: login
+      description: login a user after authenticate the user's password
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/login_body'
+      responses:
+        "200":
+          description: successfull login
+        "400":
+          description: bad request
+  /recipes:
+    get:
+      tags:
+      - recipes
+      summary: random recipes
+      description: gets random recipes from the DB
+      parameters:
+      - name: count
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 4
+      responses:
+        "200":
+          description: got random recipes
+          content:
+            application/ymal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+  /recipes/recipe/{id}:
+    get:
+      tags:
+      - recipes
+      summary: recipe info
+      description: will get the relevant info of a recipe
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: "36472"
+      - name: preview
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: steps
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: gets a recipe
+          content:
+            application/ymal:
+              schema:
+                $ref: '#/components/schemas/recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /user/{username}/lastViewed:
+    get:
+      tags:
+      - user
+      summary: recipe last viewed
+      description: will repieat the last search to get the results
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: JohnDoe43
+      responses:
+        "200":
+          description: retrives lastViewed recipes
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /user/{username}/favorite:
+    get:
+      tags:
+      - user
+      summary: favorite recipes
+      description: will retrive the recipes in the user's favorites list
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: JohnDoe43
+      responses:
+        "200":
+          description: retrives favorite recipes
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /user/{username}/family:
+    get:
+      tags:
+      - user
+      summary: family recipes
+      description: will retrive all of the user's family recipes
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: JohnDoe43
+      responses:
+        "200":
+          description: retrives family recipes
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /user/{username}/search:
+    get:
+      tags:
+      - user
+      summary: last search results
+      description: will retrive the last search results
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: JohnDoe43
+      responses:
+        "200":
+          description: retrives recipes
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /user/{username}:
+    get:
+      tags:
+      - user
+      summary: user's recipes
+      description: will retrive the recipes created by the user
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: JohnDoe43
+      responses:
+        "200":
+          description: retrives username info
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /recipes/search:
+    post:
+      tags:
+      - recipes
+      summary: search recipes
+      description: will  get recipes by the filter
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/search_filters'
+      responses:
+        "200":
+          description: searches for recipes
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/preview_recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /db/recipe/{id}:
+    get:
+      tags:
+      - db
+      summary: recipe info from the database
+      description: will retrive recipes from the database
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 36472
+      - name: preview
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: steps
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: gets a recipe
+          content:
+            application/ymal:
+              schema:
+                $ref: '#/components/schemas/recipe'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+  /db/user/{username}:
+    get:
+      tags:
+      - db
+      summary: user info
+      description: will retrive a user's info from the database
+      parameters:
+      - name: username
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: "36472"
+      responses:
+        "200":
+          description: gets user info
+          content:
+            application/ymal:
+              schema:
+                $ref: '#/components/schemas/user_info'
+        "400":
+          description: bad request
+        "404":
+          description: not found
+components:
+  schemas:
+    ingredient:
+      type: object
+      properties:
+        name:
+          type: string
+          example: pepper
+        value:
+          type: number
+        units:
+          type: string
+          example: grams
+    preview_recipe:
+      required:
+      - favorite
+      - glutenFree
+      - id
+      - image
+      - likes
+      - readyInMinutes
+      - title
+      - vegan
+      - viewed
+      type: object
+      properties:
+        id:
+          type: integer
+        image:
+          type: string
+        title:
+          type: string
+        readyInMinutes:
+          type: integer
+        likes:
+          type: integer
+        vegan:
+          type: boolean
+        glutenFree:
+          type: boolean
+        viewed:
+          type: boolean
+        favorite:
+          type: boolean
+    register_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: JohnDoe43
+        fisrt_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        country:
+          type: string
+          example: Israel
+        password:
+          type: string
+        confirmation_password:
+          type: string
+          example: pancake92
+        email:
+          type: string
+          format: email
+          example: JohnDoe43@yahoo.com
+        image:
+          type: string
+          example: https://static.xx.fbcdn.net/rsrc.php/v3/yz/r/mdFUMX-w0Fu
+    login_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: JohnDoe43
+        password:
+          type: string
+    recipe:
+      type: object
+      properties:
+        preview:
+          $ref: '#/components/schemas/preview_recipe'
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ingredient'
+        instructions:
+          type: array
+          items:
+            type: string
+            example: mix the eggs with the milk
+        servings:
+          type: integer
+          example: 4
+    search_filters:
+      required:
+      - query
+      type: object
+      properties:
+        query:
+          type: string
+          example: pasta
+        number:
+          type: integer
+          example: 5
+          default: 5
+        cuisine:
+          type: string
+          example: italian
+        diet:
+          type: string
+          example: vegan
+        intolerances:
+          type: string
+          example: peanuts
+    user_info:
+      required:
+      - query
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 8
+        username:
+          type: string
+          example: JohnDoe43
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        country:
+          type: string
+          example: israel
+        email:
+          type: string
+          example: JohnDoe43@gmail.com
+        image:
+          type: string
+          example: https://static.xx.fbcdn.net/rsrc.php/v3/yz/r/mdFUMX-w0Fu
+        lastSearch:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filters'
